@@ -16,9 +16,20 @@ class PokeApi:
         lista="\n".join(lista)
         return lista
 
+    def get_forms(self, form:str):
+        response = requests.get(self.__url+"pokemon-form/"+form)
+        data = response.json()
+        forms=data['pokemon']['name']
+        form2=data['form_name']
+        print(f"El nombre del pokemon es: {forms.capitalize()}")
 
+        form3 = data['form_order']
+        print(f"Este es el numero de orden de forma del pokemon {form3}")
 
-
+        if form2:
+            return f"La forma de este pokemon es {form2}"
+        else:
+            return"Este pokemon no tiene formas"
 
 #Instanciar objeto
 pokeapi=PokeApi()
@@ -34,9 +45,14 @@ if option == "1":
         print(pokeapi.get_generation(generacion))
     except Exception as a:
         print(f"{a}\nNo se encontró la generación")    
-        
+
 elif option=="2":
-    pass
+    try:
+        form=input("Ingresa id de pokemon:\nPor ejemplo: '10041'->Arceus, '10031'->Deoxys-Attack\n>>>>")
+        print(pokeapi.get_forms(form))
+    except Exception as a:
+        print(f"{a}\nNo se encontró la información")
+        
 elif option=="3":
     pass   
 elif option=="4":
