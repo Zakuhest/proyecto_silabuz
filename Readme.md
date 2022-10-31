@@ -6,4 +6,4 @@ Integrantes:
 
 - Cristian Diaz Capuñay
 - Jose Quispe Reyes
-- 
+- Antonio Manuel Barrantes Rupaylla
