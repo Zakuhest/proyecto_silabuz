@@ -164,21 +164,29 @@ while(validation):
                 newFile = reader(file)
                 data = [i for i in newFile]
                 rows = [data[r] for r in range(1,len(data))]
-                num_authors=int(input("Numero de autores\n>>>"))
+                
                 
         except:
             print("\nNo se ha subido el archivo.")
-        else: 
-            # Busqueda de libros por autor   
-            for i in range(len(rows)):
-                list_author=convert_author_to_list(rows[i][5])
-                if len(list_author)==num_authors:
-                    obj=Libro(rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],convert_author_to_list(rows[i][5]))
-                    print(obj.list_books()) 
-                elif  num_authors <len(list_author) or  num_authors > len(list_author):
-                    pass
-            print("\nBusqueda terminada\n")    
-
+        else:
+            search=input("¿De qué forma desea realizar su busqueda?\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            while search not in ("1","2","3"):
+                search=input("Por favor, ingrese una opción valida\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            if search == "3":
+                num_authors=int(input("Ingresa el número de autores\n>>>"))
+                # Busqueda de libros por autor   
+                for i in range(len(rows)):
+                    list_author=convert_author_to_list(rows[i][5])
+                    if len(list_author)==num_authors:
+                        obj=Libro(rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],convert_author_to_list(rows[i][5]))
+                        print(obj.list_books()) 
+                    elif  num_authors <len(list_author) or  num_authors > len(list_author):
+                        pass
+                print("\nBusqueda terminada\n")    
+            elif search =="2":
+                pass
+            else:
+                pass
                     
     elif option == '6':
         pass
