@@ -1,5 +1,5 @@
 from csv import *
-
+import csv
 # Creacion de clase libro y sus atributos
 class Libro:
     def __init__(self, id:str, title:str, gender:str, isbn:str, editorial:str, author:list[str]):
@@ -157,7 +157,39 @@ while(validation):
         else:
             print("\nEliminado correctamente.")
     elif option == '5':
-        pass
+
+        with open("3-PROYECTO/libros.csv") as csv_file:
+                var= csv.reader(csv_file)
+                cont=0
+                list_authors=[]
+                list_books=[]
+                for i in var:
+                    hh=(i[5])
+                    he=(i[1])
+                    list_authors.append(hh)
+                    list_books.append(he)
+                try:
+                    op=int(input("Ingresa la cantidad de números de autores\n>>>>"))
+                    if op == 1:
+                        print("\nEsta es la cantidad de libros con solo 1 autor\n")
+                        for j in range(len(list_authors)):
+                            for k in range(len(list_books)):
+                                if "," not in list_authors[j]:
+                                    print(list_books[j]," ",list_authors[j])
+                                break
+
+                    elif op ==2:
+                        print("\nEsta es la cantidad de libros con 2 o más autores\n")
+                        for j in range(len(list_authors)):
+                            for k in range(len(list_books)):
+                                if "," in list_authors[j]:
+                                    print("Libro-> ",list_books[j]," De-> ",list_authors[j])
+                                    break 
+                    else:
+                        print("\nNo se encontraron libros con esa cantidad de autores")                         
+                except:
+                    print("\nNo se reconoce el tipo de valor introducido\n")  
+                    
     elif option == '6':
         pass
     elif option == '7':
