@@ -1,4 +1,4 @@
-import pandas as pd
+from csv import *
 
 class Libro:
     def __init__(self, id:str, title:str, gender:str, isbn:str, editorial:str, author:list[str]):
@@ -30,6 +30,11 @@ class Libro:
 
         return show + "\n"
 
+    def add_books(self):
+        add = [self.__id, self.title, self.gender, self.isbn, self.editorial, self.author]
+        return add
+
+
 def convert_author_to_list(author: str):
     word = ""
     list_author = []
@@ -44,7 +49,6 @@ def convert_author_to_list(author: str):
 
     return list_author
 
-file_name = ""
 validation = True
 
 while(validation):
@@ -80,23 +84,58 @@ while(validation):
     if option == '1':
         file_name = input("\nIngresar el nombre del archivo a leer [.csv]: ")
         while True:
-            try:
-                file = pd.read_csv(file_name + ".csv")
+            try: 
+                with open(file_name+".csv") as file:
+                    newFile = reader(file)
+                    data = [i for i in newFile]
+                    print("\nArchivo subido.")
             except:
                 file_name = input("\nNo se encontró el archivo. Ingresar un nombre de archivo a leer nuevamente [.csv]: ")
-            else: break
-        print("\nArchivo subido.")
-
-    if option == '2':
-        try:
-            file = pd.read_csv(file_name + ".csv")
+            else:
+                break
+    elif option == '2':
+        try: 
+            with open(file_name+".csv") as file:
+                newFile = reader(file)
+                data = [i for i in newFile]
+                rows = [data[r] for r in range(1,len(data))]
         except:
             print("\nNo se ha subido el archivo.")
         else:
-            for i in range(file['Id'].count()):
-                obj = Libro(file['Id'][i],file['Title'][i],file['Gender'][i],file['ISBN'][i],file['Editorial'][i],convert_author_to_list(file['Author(s)'][i]))
+            for i in range(len(rows)):
+                obj = Libro(rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],convert_author_to_list(rows[i][5]))
                 print(obj.list_books())
             print("Listado completo.")
+    elif option == '3':
+        try:
+            with open(file_name+".csv", 'a', newline='') as file:
+                Id = input("\nID: ").upper()
+                title = input("Title: ").capitalize()
+                gender = input("Gender: ").capitalize()
+                isbn = input("ISBN: ")
+                editorial = input("Editorial: ").title()
+                author = input("Author(s): ").title()
+                add_list = [Id, title, gender, isbn, editorial, author]
+                
+                add = writer(file)
+                add.writerow(add_list)
+                file.close()
+        except:
+            print("\nNo se ha subido el archivo.")
+        else:
+            print("\nAñadido correctamente.")
+
+    elif option == '4':
+        pass
+    elif option == '5':
+        pass
+    elif option == '6':
+        pass
+    elif option == '7':
+        pass
+    elif option == '8':
+        pass
+
     
     if option == '9':
         validation = False
