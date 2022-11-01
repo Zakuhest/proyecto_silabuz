@@ -1,5 +1,6 @@
 from csv import *
 import csv
+import pandas as pd
 # Creacion de clase libro y sus atributos
 class Libro:
     def __init__(self, id:str, title:str, gender:str, isbn:str, editorial:str, author:list[str]):
@@ -192,8 +193,25 @@ while(validation):
         pass
     elif option == '7':
         pass
+
     elif option == '8':
-        pass
+        save_books=input("¿En qué formato desea guardar el libro?\n1-csv\n2-txt\n>>>")
+        while save_books not in("1","2"):
+            save_books=input("Ingrese una opción válida.\n¿En qué formato desea guardar el libro?\n1-csv\n2-txt\n>>>")
+        
+        if save_books=="1":
+            bookscsv= pd.read_csv(file_name+".csv")
+            save_as_csv=input("Ingrese el nombre que desea darle al archivo\n>>> ")
+            bookscsv.to_csv(f"{save_as_csv}.csv")
+            print(f"El archivo de nombre {save_as_csv} se ha creado.")
+   
+
+        elif save_books=="2":
+            bookstxt= pd.read_csv(file_name+".csv")
+            save_as_txt=input("Ingrese el nombre que desea darle al archivo\n>>> ")
+            bookstxt.to_csv(f"{save_as_txt}.txt")
+            print(f"El archivo de nombre {save_as_txt} se ha creado.")
+
     elif option == '9':
         validation = False
         print("\nSe cerró correctamente.\n")
