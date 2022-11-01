@@ -108,7 +108,7 @@ while(validation):
             print("Listado completo.")
     elif option == '3':
         try:
-            with open(file_name+".csv", 'a', newline='') as file:
+            with open(file_name+".csv", 'a', newline='\n') as file:
                 Id = input("\nID: ").upper()
                 title = input("Title: ").capitalize()
                 gender = input("Gender: ").capitalize()
@@ -126,7 +126,24 @@ while(validation):
             print("\nAñadido correctamente.")
 
     elif option == '4':
-        pass
+        try:
+            with open(file_name+".csv") as file:
+                newFile = reader(file)
+                data = [i for i in newFile]
+            
+            with open(file_name+".csv", "w", newline='') as file:
+                Id = input("\nID: ").upper()
+                new = writer(file)
+                for r in data:
+                    for c in r:
+                        if c != Id:
+                            new.writerow(r)
+                        break
+                file.close()
+        except:
+            print("\nNo se ha subido el archivo.")
+        else:
+            print("\nEliminado correctamente.")
     elif option == '5':
         pass
     elif option == '6':
@@ -135,8 +152,6 @@ while(validation):
         pass
     elif option == '8':
         pass
-
-    
-    if option == '9':
+    elif option == '9':
         validation = False
         print("\nSe cerró correctamente.\n")
