@@ -156,39 +156,29 @@ while(validation):
             print("\nNo se ha subido el archivo.")
         else:
             print("\nEliminado correctamente.")
+   
     elif option == '5':
+        try:
+            # Carga actualizada del csv
+            with open(file_name+".csv") as file:
+                newFile = reader(file)
+                data = [i for i in newFile]
+                rows = [data[r] for r in range(1,len(data))]
+                num_authors=int(input("Numero de autores\n>>>"))
+                
+        except:
+            print("\nNo se ha subido el archivo.")
+        else: 
+            # Busqueda de libros por autor   
+            for i in range(len(rows)):
+                list_author=convert_author_to_list(rows[i][5])
+                if len(list_author)==num_authors:
+                    obj=Libro(rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],convert_author_to_list(rows[i][5]))
+                    print(obj.list_books()) 
+                elif  num_authors <len(list_author) or  num_authors > len(list_author):
+                    pass
+            print("\nBusqueda terminada\n")    
 
-        with open("3-PROYECTO/libros.csv") as csv_file:
-                var= csv.reader(csv_file)
-                cont=0
-                list_authors=[]
-                list_books=[]
-                for i in var:
-                    hh=(i[5])
-                    he=(i[1])
-                    list_authors.append(hh)
-                    list_books.append(he)
-                try:
-                    op=int(input("Ingresa la cantidad de números de autores\n>>>>"))
-                    if op == 1:
-                        print("\nEsta es la cantidad de libros con solo 1 autor\n")
-                        for j in range(len(list_authors)):
-                            for k in range(len(list_books)):
-                                if "," not in list_authors[j]:
-                                    print(list_books[j]," ",list_authors[j])
-                                break
-
-                    elif op ==2:
-                        print("\nEsta es la cantidad de libros con 2 o más autores\n")
-                        for j in range(len(list_authors)):
-                            for k in range(len(list_books)):
-                                if "," in list_authors[j]:
-                                    print("Libro-> ",list_books[j]," De-> ",list_authors[j])
-                                    break 
-                    else:
-                        print("\nNo se encontraron libros con esa cantidad de autores")                         
-                except:
-                    print("\nNo se reconoce el tipo de valor introducido\n")  
                     
     elif option == '6':
         pass
