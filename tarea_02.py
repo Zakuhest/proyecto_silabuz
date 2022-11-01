@@ -63,6 +63,25 @@ class PokeApi:
 
         return "\nTerminó el proceso."
 
+    def get_habitat(self, habitat: str):
+        #Obtener lista de pokemons por habilidad
+        response = requests.get(self.__url+"pokemon-habitat/"+habitat)
+        data = response.json()
+
+        Id = data['id']
+        name = data['name'].capitalize()
+        name_pokemon = [data['pokemon_species'][c]['name'].capitalize() for c, i in enumerate(data['pokemon_species'])]
+        url_pokemon = [data['pokemon_species'][c]['url'] for c, i in enumerate(data['pokemon_species'])]
+
+        print(f"\nID: {Id}")
+        print(f"\nHabitat: {name}")
+        print("\nPokemons: \n")
+        
+        for i in range(len(name_pokemon)):
+            print(name_pokemon[i])
+            print(url_pokemon[i])
+
+        return "\nTerminó el proceso."
 
 #Instanciar clase
 pokeapi=PokeApi()
@@ -84,7 +103,7 @@ while validation:
     """)
     option=input("Ingresa una opción del 1 al 6\n>>>> ").strip()
 
-    while option in ("") or option not in ("1","2","3","4","5", "6"):
+    while option not in ("1","2","3","4","5","6"):
         print(
         """
         Opción 1: Listar pokemons por generación.
@@ -98,6 +117,7 @@ while validation:
 
     #Resultado de las opciones
     if option == "1":
+        # Capturando excepcion en caso no se encuentre la generacion
         try:
             generacion=input("Ingresa generación del 1 al 8\n>>>> ")
             print(pokeapi.get_generation(generacion))
@@ -105,6 +125,7 @@ while validation:
             print(f"{a}\nNo se encontró la generación")    
 
     elif option=="2":
+        # Capturando excepcion en caso no se encuentre la forma
         try:
             form=input("Ingresa id de pokemon:\nPor ejemplo: '10041'-> Arceus, '10031'-> Deoxys-Attack, ...\n>>>> ")
             print(pokeapi.get_forms(form))
@@ -112,13 +133,19 @@ while validation:
             print(f"{a}\nNo se encontró la información")
 
     elif option=="3":
+        # Capturando excepcion en caso no se encuentre la habilidad
         try:
             ability=input("Ingresa [id/nombre] de habilidad:\nPor ejemplo: '1'-> Stench, '2'-> Drizzle, '3'-> Speed-boost, ... \n>>>> ")
             print(pokeapi.get_abilities(ability))
         except Exception:
             print(f"\nNo se encontró la habilidad.")  
     elif option=="4":
-        pass     
+        # Capturando excepcion en caso no se encuentre el habitat
+        try:
+            habitat = input("Ingresa [id/nombre] de habitat:\nPor ejemplo: '1'-> Cave, '2'-> Forest, '3'-> Grassland, ... \n>>>> ")
+            print(pokeapi.get_habitat(habitat))
+        except Exception:
+            print(f"No se encontró el habitat.") 
     elif option=="5":
         pass
     elif option=="6":
