@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Libro:
     def __init__(self, id:str, title:str, gender:str, isbn:str, editorial:str, author:list[str]):
         self.__id = id
@@ -6,6 +8,27 @@ class Libro:
         self.isbn = isbn
         self.editorial = editorial
         self.author = author
+    
+    def list_books(self):
+        show = f"""
+        Title: 
+                {self.title}
+
+        Gender:
+                {self.gender}
+
+        ISBN:
+                {self.isbn}
+
+        Editorial:
+                {self.editorial}
+
+        Author(s):"""
+
+        for i in self.author:
+            show += "\n" + " "*16 + f"{i}"
+
+        return show + "\n"
 
 def convert_author_to_list(author: str):
     word = ""
@@ -21,6 +44,7 @@ def convert_author_to_list(author: str):
 
     return list_author
 
+file_name = ""
 validation = True
 
 while(validation):
@@ -52,3 +76,28 @@ while(validation):
         Opción 9: Salir.
     """)
         option = input("Opción Incorrecta. Ingresar nuevamente el número de opción a realizar: ")
+
+    if option == '1':
+        file_name = input("\nIngresar el nombre del archivo a leer [.csv]: ")
+        while True:
+            try:
+                file = pd.read_csv(file_name + ".csv")
+            except:
+                file_name = input("\nNo se encontró el archivo. Ingresar un nombre de archivo a leer nuevamente [.csv]: ")
+            else: break
+        print("\nArchivo subido.")
+
+    if option == '2':
+        try:
+            file = pd.read_csv(file_name + ".csv")
+        except:
+            print("\nNo se ha subido el archivo.")
+        else:
+            for i in range(file['Id'].count()):
+                obj = Libro(file['Id'][i],file['Title'][i],file['Gender'][i],file['ISBN'][i],file['Editorial'][i],convert_author_to_list(file['Author(s)'][i]))
+                print(obj.list_books())
+            print("Listado completo.")
+    
+    if option == '9':
+        validation = False
+        print("\nSe cerró correctamente.\n")
