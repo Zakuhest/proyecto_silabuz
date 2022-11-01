@@ -30,11 +30,6 @@ class Libro:
 
         return show + "\n"
 
-    def add_books(self):
-        add = [self.__id, self.title, self.gender, self.isbn, self.editorial, self.author]
-        return add
-
-
 def convert_author_to_list(author: str):
     word = ""
     list_author = []
