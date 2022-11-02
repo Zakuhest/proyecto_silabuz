@@ -14,10 +14,17 @@ class PokeApi:
         data = response.json()
     
         region=data['main_region']['name']
-        print(f"\nLa región que has ingresado es {region.upper()}\nY esta es la lista de pokemons:\n")
-        lista=[j['name'] for j in data['pokemon_species']]
-        lista="\n".join(lista)
-        return lista
+        print(f"\nLa región que has ingresado es {region.upper()}\n")
+        input("Presiona Enter para ver la lista de pokemons...\n")
+        list_gen=[j['name'] for j in data['pokemon_species']]
+        list_gen_url=[l['url'] for l in data['pokemon_species']]
+        for i in range(len(list_gen)):
+            print(f'''Pokemon:
+                    {list_gen[i].capitalize()}\n''')
+            print(f'''Url:
+                    {list_gen_url[i]}\n\n\n''')
+
+        return "\nTerminó la busqueda\n"
 
     def get_forms(self, form:str):
         #Obtener pokemon por forma
@@ -121,8 +128,8 @@ while validation:
         try:
             generacion=input("Ingresa generación del 1 al 8\n>>>> ")
             print(pokeapi.get_generation(generacion))
-        except Exception as a:
-            print(f"{a}\nNo se encontró la generación")    
+        except:
+            print("\nNo se encontró la generación\n")    
 
     elif option=="2":
         # Capturando excepcion en caso no se encuentre la forma
