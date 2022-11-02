@@ -190,8 +190,51 @@ while(validation):
                     
     elif option == '6':
         pass
+
+
     elif option == '7':
-        pass
+        try:
+            # Carga actualizada del csv
+            with open(file_name+".csv") as file:
+                newFile = reader(file)
+        except:
+            print("\nNo se ha subido el archivo")
+        else:
+            with open(file_name+".csv") as file:
+                next(file)
+                newFile = reader(file)
+                update_list=[]
+                id=(input("\nIngrese id de libro a actualizar\n>>> "))
+                found=False
+                for row in newFile:
+                    if row[0]==id:
+                        found=True
+                        id_book=input("\nIngrese nueva ID del libro\n>>> ")
+                        title=input("\nIngrese un nuevo título\n>>> ")
+                        gender=input("\nIngrese un nuevo género\n>>> ")
+                        isbn=input("\nIngrese un nuevo ISBN\n>>> ")
+                        editor=input("\nIngrese nuevo editor\n>>> ")
+                        author=input("\nIngrese nuevo autor\n>>> ")
+                        row[0]=id_book
+                        row[1]=title
+                        row[2]=gender
+                        row[3]=isbn
+                        row[4]=editor
+                        row[5]=author
+                    update_list.append(row)
+                if found:
+                    with open(file_name+".csv","w+",newline='') as file:
+                        header_row=["Id","Title","Gender","ISBN","Editorial","Author(s)"]
+                        file.seek(0)
+                        head_row=writer(file)
+                        head_row.writerow(header_row)
+
+                        upd=writer(file)
+                        upd.writerows(update_list)
+                        print("\n\n----------Se han actualizado los datos----------\n\n")    
+                else:
+                    print("\n\nNo se ha encontrado la id ingresada\n\n")
+  
 
     elif option == '8':
         try:
