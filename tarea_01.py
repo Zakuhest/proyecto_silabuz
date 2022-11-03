@@ -189,8 +189,24 @@ while(validation):
                 pass
                     
     elif option == '6':
-        pass
 
+        try:
+            # Carga actualizada del csv
+            with open(file_name+".csv") as file:
+                newFile = reader(file)
+                data = [i for i in newFile]
+                rows = [data[r] for r in range(1,len(data))]
+        except:
+            print("\nNo se ha subido el archivo.")
+        else:
+            list_author = []
+            print("Escogió la opción 6: Ordenar libros por títulos.\n")
+            for i in range(len(rows)):
+                    list_author.append(rows[i][5])
+            list_author.sort()
+            print("La lista de autores, ordenada alfabeticamente es: \n")
+            for i in list_author:
+                print(i)
 
     elif option == '7':
         try:
