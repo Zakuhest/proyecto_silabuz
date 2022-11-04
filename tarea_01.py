@@ -202,9 +202,9 @@ while(validation):
             list_author = []
             print("Escogió la opción 6: Ordenar libros por títulos.\n")
             for i in range(len(rows)):
-                    list_author.append(rows[i][5])
+                    list_author.append(rows[i][1])
             list_author.sort()
-            print("La lista de autores, ordenada alfabeticamente es: \n")
+            print("Libros ordenados alfabeticamente por títulos: \n")
             for i in list_author:
                 print(i)
 
@@ -250,7 +250,6 @@ while(validation):
                         print("\n\n----------Se han actualizado los datos----------\n\n")    
                 else:
                     print("\n\nNo se ha encontrado la id ingresada\n\n")
-  
 
     elif option == '8':
         try:
