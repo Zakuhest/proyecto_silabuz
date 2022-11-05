@@ -1,6 +1,8 @@
+# Librerias usadas
 from csv import *
-import csv
+import os
 import pandas as pd
+
 # Creacion de clase libro y sus atributos
 class Libro:
     def __init__(self, id:str, title:str, gender:str, isbn:str, editorial:str, author:list[str]):
@@ -50,6 +52,11 @@ def convert_author_to_list(author: str):
 
 # Declaracion de variable que valide entrada y salida al bucle while
 validation = True
+
+# Creacion de una carpeta en la direccion actual, que guarde archivos
+current_directory = os.getcwd()
+saved_files = os.path.join(current_directory, "Saved Files")
+os.mkdir(saved_files)
 
 while(validation):
     # Estructura del menú interactivo
@@ -157,7 +164,7 @@ while(validation):
             print("\nNo se ha subido el archivo.")
         else:
             print("\nEliminado correctamente.")
-   
+
     elif option == '5':
         try:
             # Carga actualizada del csv
@@ -165,7 +172,7 @@ while(validation):
                 newFile = reader(file)
                 data = [i for i in newFile]
                 rows = [data[r] for r in range(1,len(data))]
-                   
+
         except:
             print("\nNo se ha subido el archivo.")
         else:
@@ -187,7 +194,7 @@ while(validation):
                 pass
             else:
                 pass
-                    
+
     elif option == '6':
 
         try:
@@ -266,14 +273,13 @@ while(validation):
             if save_books=="1":
                 bookscsv= pd.read_csv(file_name+".csv")
                 save_as_csv=input("Ingrese el nombre que desea darle al archivo\n>>> ")
-                bookscsv.to_csv(f"{save_as_csv}.csv")
+                bookscsv.to_csv(f"Saved Files\{save_as_csv}.csv")
                 print(f"El archivo de nombre {save_as_csv} se ha creado.")
-    
 
             elif save_books=="2":
                 bookstxt= pd.read_csv(file_name+".csv")
                 save_as_txt=input("Ingrese el nombre que desea darle al archivo\n>>> ")
-                bookstxt.to_csv(f"{save_as_txt}.txt")
+                bookstxt.to_csv(f"Saved Files\{save_as_txt}.txt")
                 print(f"El archivo de nombre {save_as_txt} se ha creado.")
 
     elif option == '9':
