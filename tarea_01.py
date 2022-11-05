@@ -53,10 +53,13 @@ def convert_author_to_list(author: str):
 # Declaracion de variable que valide entrada y salida al bucle while
 validation = True
 
-# Creacion de una carpeta en la direccion actual, que guarde archivos
-current_directory = os.getcwd()
-saved_files = os.path.join(current_directory, "Saved Files")
-os.mkdir(saved_files)
+# Creacion de una carpeta en la direccion actual, que guarde archivos, por defecto
+try:
+    current_directory = os.getcwd()
+    saved_files = os.path.join(current_directory, "Saved Files")
+    os.mkdir(saved_files)
+except: 
+    pass #En caso de existir la carpeta, solo seguir con el programa
 
 while(validation):
     # Estructura del menú interactivo
