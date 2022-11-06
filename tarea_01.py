@@ -179,10 +179,10 @@ while(validation):
         except:
             print("\nNo se ha subido el archivo.")
         else:
-            search=input("¿De qué forma desea realizar su busqueda?\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
-            while search not in ("1","2","3"):
-                search=input("Por favor, ingrese una opción valida\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
-            if search == "3":
+            searchh=input("¿De qué forma desea realizar su busqueda?\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            while searchh not in ("1","2","3"):
+                searchh=input("Por favor, ingrese una opción valida\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            if searchh == "3":
                 num_authors=int(input("Ingresa el número de autores\n>>>"))
                 # Busqueda de libros por autor   
                 for i in range(len(rows)):
@@ -193,10 +193,147 @@ while(validation):
                     elif  num_authors <len(list_author) or  num_authors > len(list_author):
                         pass
                 print("\nBusqueda terminada\n")    
-            elif search =="2":
-                pass
-            else:
-                pass
+            elif searchh =="2":
+                search1=input("¿De qué forma desea realizar su búsqueda?\n1-Autor\n2-Editorial\n3-Género\nIngrese un número>>> ")
+                while search1 not in ("1","2","3"):
+                    search1=input("Por favor, ingrese una opción válida\n1-Autor\n2-Editorial\n3-Género\nIngrese un número>>> ")
+                if search1 == "3":
+                    genders = []
+                    for i in range(len(rows)):
+                        genders.append(rows[i][2])
+                    
+                    print("Ingresaste la opción: Búsqueda por género\n¿Cuál de los siguientes género es el que buscas? ")
+                    index3 =[]
+                    for b, book2 in enumerate(genders):
+                        print(str(b+1)+".", book2)
+                        index3.append(str(b+1))
+
+                    option_title3= input("Digite la opción del género del libro que buscas: ")
+                    while option_title3 not in index3:
+                        print("Por favor, ingrese una opción válida.")
+                        for b, book2 in enumerate(genders):
+                            print(str(b+1)+".", book2)
+                        
+                        option_title3= input("\nDigite la opción del género del libro que buscas: ")
+
+                    index6 = int(option_title3)-1    
+                    # Instancia de clase Libro
+                    object3 = Libro(rows[index6][0],rows[index6][1],rows[index6][2],rows[index6][3],rows[index6][4],convert_author_to_list(rows[index6][5]))
+                    # Llamada a funcion listar libros, mediante instancia
+                    print(object3.list_books())
+                    print("\nBúsqueda terminada\n")
+
+                elif search1== "2":
+                    editorials = []
+                    for i in range(len(rows)):
+                        editorials.append(rows[i][4])
+
+                    print("Ingresaste la opción: Búsqueda por Editorial\n¿Cuál de las siguientes editoriales es el que buscas? ")
+                    index7 =[]
+                    for c, book3 in enumerate(editorials):
+                        print(str(c+1)+".", book3)
+                        index7.append(str(c+1))
+                    
+                    option_title4= input("Digite la opción de la editorial del libro que buscas: ")
+                    while option_title4 not in index7:
+                        print("Por favor, ingrese una opción válida.")
+                        for c, book3 in enumerate(editorials):
+                            print(str(c+1)+".", book3)
+                        option_title4= input("Digite la opción de la editorial del libro que buscas: ")
+
+                    index8 = int(option_title4)-1    
+                    # Instancia de clase Libro
+                    object4 = Libro(rows[index8][0],rows[index8][1],rows[index8][2],rows[index8][3],rows[index8][4],convert_author_to_list(rows[index8][5]))
+                    # Llamada a funcion listar libros, mediante instancia
+                    print(object4.list_books())
+                    print("\nBúsqueda terminada\n")
+
+
+                elif search1== "1":
+                    autors =[]
+                    for i in range(len(rows)):
+                        autors.append(rows[i][5])
+                    
+                    print("Ingresaste la opción: Búsqueda por autores\n¿Cuál de las siguientes autores es el que buscas? ")
+                    index9 = []
+                    for d, book4 in enumerate(autors):
+                        print(str(d+1)+".", book4)
+                        index9.append(str(d+1))
+                    
+                    option_title5= input("Digite la opción del autor del libro que buscas: ")
+                    while option_title5 not in index7:
+                        print("Por favor, ingrese una opción válida.")
+                        for d, book4 in enumerate(autors):
+                            print(str(d+1)+".", book4)
+                        option_title5= input("Digite la opción del autor del libro que buscas: ")
+
+                    index10 = int(option_title5)-1    
+                    # Instancia de clase Libro
+                    object5 = Libro(rows[index10][0],rows[index10][1],rows[index10][2],rows[index10][3],rows[index10][4],convert_author_to_list(rows[index10][5]))
+                    # Llamada a funcion listar libros, mediante instancia
+                    print(object5.list_books())
+                    print("\nBúsqueda terminada\n")
+
+                
+            elif searchh == "1":
+                search=input("¿De qué forma desea realizar su busqueda?\n1-ISBN\n2-Título\nIngrese un número>>> ")
+                while search not in ("1","2"):
+                    search=input("Por favor, ingrese una opción válida\n1-ISBN\n2-Título\nIngrese un número>>> ")
+
+                if search == "2":
+                    titles = []
+                    for i in range(len(rows)):
+                        titles.append(rows[i][1])
+
+                    print("Ingresaste la opción: Búsqueda por título\n¿Cuál de los siguientes títulos buscas? ")
+                    index1 =[]
+                    for a, book1 in enumerate(titles):
+                        print(str(a+1)+".", book1)
+                        index1.append(str(a+1))
+
+                    option_title= input("Digite la opción del título del libro que busca: ")
+                    while option_title not in index1:
+                        print("Por favor, ingrese una opción válida.")
+                        for a, book1 in enumerate(titles):
+                            print(str(a+1)+".", book1)
+
+                        option_title= input("\nDigite la opción del título del libro que busca: ")
+
+                    index4 = int(option_title)-1    
+                    # Instancia de clase Libro
+                    object1 = Libro(rows[index4][0],rows[index4][1],rows[index4][2],rows[index4][3],rows[index4][4],convert_author_to_list(rows[index4][5]))
+                    # Llamada a funcion listar libros, mediante instancia
+                    print(object1.list_books())
+
+                    print("\nBúsqueda terminada\n") 
+
+                
+                elif search =="1":
+                    isbn = []
+                    for i in range(len(rows)):
+                        isbn.append(rows[i][3])
+                    print("Ingresaste la opción: Búsqueda por ISBN\n¿Cuál de los siguientes títulos buscas? ")
+                    index2 =[]
+                    for l, book2 in enumerate(isbn):
+                        print(str(l+1)+".", book2)
+                        index2.append(str(l+1))
+                    
+                    option_title2= input("Digite la opción del título del libro que busca: ")
+                    while option_title2 not in index2:
+                        print("Por favor, ingrese una opción válida.")
+                        for l, book2 in enumerate(isbn):
+                            print(str(l+1)+".", book2)
+
+                        option_title2= input("\nDigite la opción del título del libro que busca: ")
+
+                    index5 = int(option_title2)-1    
+                    # Instancia de clase Libro
+                    object2 = Libro(rows[index5][0],rows[index5][1],rows[index5][2],rows[index5][3],rows[index5][4],convert_author_to_list(rows[index5][5]))
+                    # Llamada a funcion listar libros, mediante instancia
+                    print(object2.list_books())
+
+                    print("\nBúsqueda terminada\n")
+
 
     elif option == '6':
 
