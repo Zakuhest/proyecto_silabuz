@@ -3,6 +3,7 @@ import json
 import numpy as np
 import cv2
 import urllib
+import time
 
 class PokeApi:
     def __init__(self):
@@ -22,7 +23,6 @@ class PokeApi:
                     {list_gen[i].capitalize()}\n''')
             print(f'''Url:
                     {list_gen_url[i]}\n\n\n''')
-
         return "\nTerminó la busqueda\n"
 
     def get_forms(self, form:str):
@@ -31,9 +31,9 @@ class PokeApi:
         data = response.json()
         forms=data['pokemon']['name']
         form2=data['form_name']
-        print(f"El nombre del pokemon es: {forms.capitalize()}")
-
         form3 = data['form_order']
+
+        print(f"El nombre del pokemon es: {forms.capitalize()}")
         print(f"Este es el numero de orden de forma del pokemon {form3}")
 
         if form2:
@@ -61,16 +61,19 @@ class PokeApi:
 
         print(f"\nID: {Id}")
         print(f"\nAbility: {name}")
+        input("\nPresiona enter para ver los pokemons...\n")
         print("\nPokemons: \n")
         
         for i in range(len(name_pokemon)):
-            print(name_pokemon[i])
-            print(url_pokemon[i])
-
+            print(f'''Pokemon:
+                    {name_pokemon[i]}\n''')
+            print(f'''Url:
+                    {url_pokemon[i]}\n\n\n''')
+            time.sleep(0.2)                   
         return "\nTerminó el proceso."
 
     def get_habitat(self, habitat: str):
-        #Obtener lista de pokemons por habilidad
+        #Obtener lista de pokemons por tipo
         response = requests.get(self.__url+"pokemon-habitat/"+habitat)
         data = response.json()
 
@@ -81,15 +84,15 @@ class PokeApi:
 
         print(f"\nID: {Id}")
         print(f"\nHabitat: {name}")
+        input("\nPresiona enter para ver los pokemons...\n")
         print("\nPokemons: \n")
         
         for i in range(len(name_pokemon)):
-            print(name_pokemon[i])
-            print(url_pokemon[i])
-
+            print(f'''Pokemon:
+                    {name_pokemon[i]}\n''')
+            print(f'''Url:
+                    {url_pokemon[i]}\n\n\n''')
         return "\nTerminó el proceso."
-
-    
 
     def get_types(self, types: str):
         #Obtener lista de pokemons por habilidad
@@ -103,12 +106,14 @@ class PokeApi:
 
         print(f"\nID: {Id}")
         print(f"\nType: {name}")
+        input("\nPresiona enter para ver los pokemons...\n")
         print("\nPokemons: \n")
 
         for i in range(len(name_pokemon)):
-            print(name_pokemon[i])
-            print(url_pokemon[i])
-
+            print(f'''Pokemon:
+                    {name_pokemon[i]}\n''')
+            print(f'''Url:
+                    {url_pokemon[i]}\n\n\n''')
         return "\nTerminó el proceso."
 
 
@@ -116,9 +121,6 @@ class PokeApi:
 pokeapi=PokeApi()
 
 validation = True
-
-#Opciones a elegir entre las 5 alternativas
-
 while validation:
     # Estructura de menu interactivo
     print(
@@ -131,7 +133,6 @@ while validation:
         Opción 6: Salir.
     """)
     option=input("Ingresa una opción del 1 al 6\n>>>> ").strip()
-
     while option not in ("1","2","3","4","5","6"):
         print(
         """
@@ -168,13 +169,15 @@ while validation:
             print(pokeapi.get_abilities(ability))
         except Exception:
             print(f"\nNo se encontró la habilidad.")  
+    
     elif option=="4":
-        # Capturando excepcion en caso no se encuentre el habitat
+        # Capturando excepcion en caso no se encuentre el tipo
         try:
             habitat = input("Ingresa [id/nombre] de habitat:\nPor ejemplo: '1'-> Cave, '2'-> Forest, '3'-> Grassland, ... \n>>>> ")
             print(pokeapi.get_habitat(habitat))
         except Exception:
             print(f"No se encontró el habitat.") 
+    
     elif option=="5":
         try:
             types = input("Ingresa [id/nombre] de tipo:\nPor ejemplo: '1'-> Normal, '2'-> Fighting, '3'-> Flying, ... \n>>>> ")
