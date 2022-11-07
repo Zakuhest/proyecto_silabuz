@@ -2,6 +2,7 @@
 from csv import *
 import os
 import pandas as pd
+import time
 
 # Creacion de clase libro y sus atributos
 class Libro:
@@ -32,7 +33,6 @@ class Libro:
 
         for i in self.author:
             show += "\n" + " "*16 + f"{i}"
-
         return show + "\n"
 
 # Funcion para convertir valores de la columna autores a lista
@@ -47,11 +47,7 @@ def convert_author_to_list(author: str):
             continue
         word += i
     list_author.append(word)
-
     return list_author
-
-# Declaracion de variable que valide entrada y salida al bucle while
-validation = True
 
 # Creacion de una carpeta en la direccion actual, que guarde archivos, por defecto
 try:
@@ -61,6 +57,8 @@ try:
 except: 
     pass #En caso de existir la carpeta, solo seguir con el programa
 
+# Declaracion de variable que valide entrada y salida al bucle while
+validation = True
 while(validation):
     # Estructura del menú interactivo
     print(
@@ -102,7 +100,9 @@ while(validation):
                 with open(file_name+".csv") as file:
                     newFile = reader(file)
                     data = [i for i in newFile]
+                    time.sleep(0.5)
                     print("\nArchivo subido.")
+                    time.sleep(0.5)
             except:
                 file_name = input("\nNo se encontró el archivo. Ingresar un nombre de archivo a leer nuevamente [.csv]: ")
             else:
@@ -119,15 +119,20 @@ while(validation):
             print("\nNo se ha subido el archivo.")
         else:
             # Recorre las filas del csv
+            print("\nCargando datos...")
+            time.sleep(0.5)
             for i in range(len(rows)):
                 # Instancia de clase Libro
                 obj = Libro(rows[i][0],rows[i][1],rows[i][2],rows[i][3],rows[i][4],convert_author_to_list(rows[i][5]))
+                time.sleep(0.7)
                 # Llamada a funcion listar libros, mediante instancia
                 print(obj.list_books())
             print("Listado completo.")
     elif option == '3':
         # Capturando excepcion en caso no se encuentre el archivo subido
         try:
+            print("\n\nIngresa los datos a registrar\n")
+            time.sleep(1)
             # Carga actualizada del csv, con modo 'a' (add) y con un salto de línea se genera una nueva línea
             with open(file_name+".csv", 'a', newline='\n') as file:
                 Id = input("\nID: ").upper()
@@ -153,20 +158,30 @@ while(validation):
             with open(file_name+".csv") as file:
                 newFile = reader(file)
                 data = [i for i in newFile]
-            # Sobreescritura del csv, con modo 'w' (write)
-            with open(file_name+".csv", "w", newline='') as file:
+                rows = [data[r] for r in range(1,len(data))]
+                val = False
                 Id = input("\nID: ").upper()
-                new = writer(file)
-                for r in data:
-                    for c in r:
-                        if c != Id: # Si el identificador no es igual al elemento de la primera columna
-                            new.writerow(r) # Se sobreescribe cada fila eliminando la que no cumpla la condicion
-                        break
-                file.close()
+                for i in range(len(rows)):
+                    if Id == rows[i][0]:
+                        val = True
+                if val is True:
+                    # Sobreescritura del csv, con modo 'w' (write)
+                    with open(file_name+".csv", "w", newline='') as file:
+                            new = writer(file)
+                            for r in data:
+                                for c in r:
+                                    if c != Id: # Si el identificador no es igual al elemento de la primera columna
+                                        new.writerow(r) # Se sobreescribe cada fila eliminando la que no cumpla la condicion
+                                    break
+                            file.close()
+                else:
+                    print("\nLa ID ingresada no existe.")
+                    pass
         except:
             print("\nNo se ha subido el archivo.")
         else:
-            print("\nEliminado correctamente.")
+            if val is True:
+                print("\nEliminado correctamente.")
 
     elif option == '5':
         try:
@@ -175,14 +190,13 @@ while(validation):
                 newFile = reader(file)
                 data = [i for i in newFile]
                 rows = [data[r] for r in range(1,len(data))]
-
         except:
             print("\nNo se ha subido el archivo.")
         else:
-            searchh=input("¿De qué forma desea realizar su busqueda?\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
-            while searchh not in ("1","2","3"):
-                searchh=input("Por favor, ingrese una opción valida\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
-            if searchh == "3":
+            find=input("¿De qué forma desea realizar su busqueda?\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            while find not in ("1","2","3"):
+                find=input("Por favor, ingrese una opción valida\n1-ISBN o Título\n2-Autor, Editorial o Género\n3-Por número de autores\nIngrese un número>>> ")
+            if find == "3":
                 num_authors=int(input("Ingresa el número de autores\n>>>"))
                 # Busqueda de libros por autor   
                 for i in range(len(rows)):
@@ -193,7 +207,7 @@ while(validation):
                     elif  num_authors <len(list_author) or  num_authors > len(list_author):
                         pass
                 print("\nBusqueda terminada\n")    
-            elif searchh =="2":
+            elif find =="2":
                 search1=input("¿De qué forma desea realizar su búsqueda?\n1-Autor\n2-Editorial\n3-Género\nIngrese un número>>> ")
                 while search1 not in ("1","2","3"):
                     search1=input("Por favor, ingrese una opción válida\n1-Autor\n2-Editorial\n3-Género\nIngrese un número>>> ")
@@ -275,7 +289,7 @@ while(validation):
                     print("\nBúsqueda terminada\n")
 
                 
-            elif searchh == "1":
+            elif find == "1":
                 search=input("¿De qué forma desea realizar su busqueda?\n1-ISBN\n2-Título\nIngrese un número>>> ")
                 while search not in ("1","2"):
                     search=input("Por favor, ingrese una opción válida\n1-ISBN\n2-Título\nIngrese un número>>> ")
