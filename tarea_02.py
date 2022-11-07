@@ -12,7 +12,6 @@ class PokeApi:
         #Obtener lista de pokemons por generación
         response = requests.get(self.__url+"generation/"+gen)
         data = response.json()
-        print(data)
         region=data['main_region']['name']
         print(f"\nLa región que has ingresado es {region.upper()}\n")
         input("Presiona Enter para ver la lista de pokemons...\n")
