@@ -5,6 +5,16 @@ import cv2
 import urllib
 import time
 
+def get_image_url(img):                
+    response_2=requests.get(img)
+    data_2=response_2.json()
+    resp=data_2['varieties'][0]['pokemon']
+
+    response_3=requests.get("https://pokeapi.co/api/v2/pokemon/"+resp['name'])
+    data_3=response_3.json()
+    img_url=data_3['sprites']['front_default']
+    return img_url    
+
 class PokeApi:
     def __init__(self):
         self.__url=f"https://pokeapi.co/api/v2/"
@@ -22,7 +32,7 @@ class PokeApi:
             print(f'''Pokemon:
                     {list_gen[i].capitalize()}\n''')
             print(f'''Url:
-                    {list_gen_url[i]}\n\n\n''')
+                    {get_image_url(list_gen_url[i])}\n\n\n''')
         return "\nTerminó el proceso\n"
 
     def get_forms(self, form:str):
