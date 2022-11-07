@@ -29,7 +29,6 @@ class PokeApi:
         #Obtener pokemon por forma
         response = requests.get(self.__url+"pokemon-form/"+form)
         data = response.json()
-        print(data)
         forms=data['pokemon']['name']
         form2=data['form_name']
         print(f"El nombre del pokemon es: {forms.capitalize()}")
