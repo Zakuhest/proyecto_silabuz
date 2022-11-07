@@ -23,31 +23,23 @@ class PokeApi:
                     {list_gen[i].capitalize()}\n''')
             print(f'''Url:
                     {list_gen_url[i]}\n\n\n''')
-        return "\nTerminó la busqueda\n"
+        return "\nTerminó el proceso\n"
 
     def get_forms(self, form:str):
         #Obtener pokemon por forma
-        response = requests.get(self.__url+"pokemon-form/"+form)
+        response = requests.get(self.__url+"pokemon-shape/"+form)
         data = response.json()
-        forms=data['pokemon']['name']
-        form2=data['form_name']
-        form3 = data['form_order']
-
-        print(f"El nombre del pokemon es: {forms.capitalize()}")
-        print(f"Este es el numero de orden de forma del pokemon {form3}")
-
-        if form2:
-            print(f"La forma de este pokemon es {form2}")
-        else:
-            print("Este pokemon no tiene formas")
-
-        image_url= data['sprites']['front_default']
-        resp = urllib.request.urlopen(image_url)
-        image = np.asarray(bytearray(resp.read()), dtype="uint8")
-        image = cv2.imdecode(image, cv2.IMREAD_COLOR)
-        cv2.imshow("Image", image)
-        cv2.waitKey(0)
-        return "\nTerminó el proceso."     
+        print(f"\nEl nombre de la forma que has seleccionado es {data['name'].upper()}")
+        input("\nPulsa enter para cargar los datos de los pokemons que tienen esta forma...")
+        list_name=[j['name'] for j in data['pokemon_species']]
+        list_url=[l['url'] for l in data['pokemon_species']]
+        for i in range(len(list_name)):
+            print(f'''Pokemon:
+                    {list_name[i].capitalize()}\n''')
+            print(f'''Url:
+                    {list_url[i]}\n\n\n''')
+            time.sleep(0.1)                   
+        return "\nTerminó el proceso\n"   
 
     def get_abilities(self, ability: str):
         #Obtener lista de pokemons por habilidad
@@ -157,10 +149,10 @@ while validation:
     elif option=="2":
         # Capturando excepcion en caso no se encuentre la forma
         try:
-            form=input("Ingresa id de pokemon:\nPor ejemplo: '10041'-> Arceus, '10031'-> Deoxys-Attack, ...\n>>>> ")
+            form=input("Ingresa número de forma (1-14)\n>>>> ")
             print(pokeapi.get_forms(form))
-        except Exception as a:
-            print(f"{a}\nNo se encontró la información")
+        except:
+            print("\nNo se encontró la información")
 
     elif option=="3":
         # Capturando excepcion en caso no se encuentre la habilidad
