@@ -12,7 +12,7 @@ class PokeApi:
         #Obtener lista de pokemons por generación
         response = requests.get(self.__url+"generation/"+gen)
         data = response.json()
-    
+        print(data)
         region=data['main_region']['name']
         print(f"\nLa región que has ingresado es {region.upper()}\n")
         input("Presiona Enter para ver la lista de pokemons...\n")
@@ -30,6 +30,7 @@ class PokeApi:
         #Obtener pokemon por forma
         response = requests.get(self.__url+"pokemon-form/"+form)
         data = response.json()
+        print(data)
         forms=data['pokemon']['name']
         form2=data['form_name']
         print(f"El nombre del pokemon es: {forms.capitalize()}")
@@ -89,6 +90,29 @@ class PokeApi:
             print(url_pokemon[i])
 
         return "\nTerminó el proceso."
+
+    
+
+    def get_types(self, types: str):
+        #Obtener lista de pokemons por habilidad
+        response = requests.get(self.__url+"type/"+types)
+        data = response.json()
+
+        Id = data['id']
+        name = data['name'].capitalize()
+        name_pokemon = [data['pokemon'][c]['pokemon']['name'].capitalize() for c, i in enumerate(data['pokemon'])]
+        url_pokemon = [data['pokemon'][c]['pokemon']['url'] for c, i in enumerate(data['pokemon'])]
+
+        print(f"\nID: {Id}")
+        print(f"\nType: {name}")
+        print("\nPokemons: \n")
+
+        for i in range(len(name_pokemon)):
+            print(name_pokemon[i])
+            print(url_pokemon[i])
+
+        return "\nTerminó el proceso."
+
 
 #Instanciar clase
 pokeapi=PokeApi()
@@ -154,7 +178,12 @@ while validation:
         except Exception:
             print(f"No se encontró el habitat.") 
     elif option=="5":
-        pass
+        try:
+            types = input("Ingresa [id/nombre] de tipo:\nPor ejemplo: '1'-> Normal, '2'-> Fighting, '3'-> Flying, ... \n>>>> ")
+            print(pokeapi.get_types(types))
+        except Exception:
+            print(f"No se encontró el tipo.")
+
     elif option=="6":
         validation = False
         print("\nSe cerró correctamente.\n")
