@@ -73,7 +73,7 @@ class PokeApi:
         return "\nTerminó el proceso."
 
     def get_habitat(self, habitat: str):
-        #Obtener lista de pokemons por tipo
+        #Obtener lista de pokemons por habitat
         response = requests.get(self.__url+"pokemon-habitat/"+habitat)
         data = response.json()
 
@@ -95,7 +95,7 @@ class PokeApi:
         return "\nTerminó el proceso."
 
     def get_types(self, types: str):
-        #Obtener lista de pokemons por habilidad
+        #Obtener lista de pokemons por tipo
         response = requests.get(self.__url+"type/"+types)
         data = response.json()
 
@@ -171,7 +171,7 @@ while validation:
             print(f"\nNo se encontró la habilidad.")  
     
     elif option=="4":
-        # Capturando excepcion en caso no se encuentre el tipo
+        # Capturando excepcion en caso no se encuentre el habitat
         try:
             habitat = input("Ingresa [id/nombre] de habitat:\nPor ejemplo: '1'-> Cave, '2'-> Forest, '3'-> Grassland, ... \n>>>> ")
             print(pokeapi.get_habitat(habitat))
@@ -179,6 +179,7 @@ while validation:
             print(f"No se encontró el habitat.") 
     
     elif option=="5":
+        # Capturando excepcion en caso no se encuentre el tipo
         try:
             types = input("Ingresa [id/nombre] de tipo:\nPor ejemplo: '1'-> Normal, '2'-> Fighting, '3'-> Flying, ... \n>>>> ")
             print(pokeapi.get_types(types))
